@@ -1,0 +1,262 @@
+1647967998716	geckodriver	INFO	Listening on 127.0.0.1:43645
+1647967999250	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "60527" "-no-remote" "-profile" "/tmp/rust_mozprofileoJ1KXV"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647968000923	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileoJ1KXV/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:60527/devtools/browser/3a5df3e7-9bee-4eb3-ab09-1a85d070ece3
+1647968003186	Marionette	INFO	Listening on port 40165
+1647968003312	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647968008611	Marionette	INFO	Stopped listening on port 40165
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+!!! error running onStopped callback: TypeError: callback is not a function
+console.error: PushService: 
+  stateChangeProcessEnqueue: Error transitioning state
+  Message: Error: Data is not ready.
+  Stack:
+    get data@resource://gre/modules/JSONFile.jsm:186:13
+getListeners@resource://gre/modules/PushBroadcastService.jsm:66:5
+observe@resource://gre/modules/AsyncShutdown.jsm:575:16
+
+1647969524835	geckodriver	INFO	Listening on 127.0.0.1:44701
+1647969524837	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "55281" "-no-remote" "-profile" "/tmp/rust_mozprofilegAbNfr"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647969527280	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilegAbNfr/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:55281/devtools/browser/6bec46bc-a0a2-466e-84a8-9d5351ac180c
+1647969528725	Marionette	INFO	Listening on port 44915
+1647969528769	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1647969702605	Marionette	INFO	Stopped listening on port 44915
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1647969706616	geckodriver	INFO	Listening on 127.0.0.1:60661
+1647969707119	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "59095" "-no-remote" "-profile" "/tmp/rust_mozprofile7iRPOB"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647969707951	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofile7iRPOB/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:59095/devtools/browser/9c9f970d-5fc3-4760-82d8-6cba482084a9
+1647969709329	Marionette	INFO	Listening on port 41185
+1647969709480	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647969767333	Marionette	INFO	Stopped listening on port 41185
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+!!! error running onStopped callback: TypeError: callback is not a function
+console.error: PushService: 
+  stateChangeProcessEnqueue: Error transitioning state
+  Message: Error: Data is not ready.
+  Stack:
+    get data@resource://gre/modules/JSONFile.jsm:186:13
+getListeners@resource://gre/modules/PushBroadcastService.jsm:66:5
+observe@resource://gre/modules/AsyncShutdown.jsm:575:16
+
+*** UTM:SVC TimerManager:registerTimer called after profile-before-change notification. Ignoring timer registration for id: telemetry_modules_ping
+1647969771868	geckodriver	INFO	Listening on 127.0.0.1:41621
+1647969772373	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "43797" "-no-remote" "-profile" "/tmp/rust_mozprofile6CF4Xc"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647969779328	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofile6CF4Xc/search.json.mozlz4", (void 0)))
+console.error: Region.jsm: "Error fetching region" (new Error("TIMEOUT", "resource://gre/modules/Region.jsm", 772))
+console.error: Region.jsm: "Failed to fetch region" (new Error("TIMEOUT", "resource://gre/modules/Region.jsm", 419))
+DevTools listening on ws://localhost:43797/devtools/browser/12010d00-f45b-421b-bc35-db284df590a5
+1647969785688	Marionette	INFO	Listening on port 35177
+1647969785705	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647969843337	geckodriver	INFO	Listening on 127.0.0.1:40197
+1647969843840	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "32995" "-no-remote" "-profile" "/tmp/rust_mozprofilezypwf1"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647969845189	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilezypwf1/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:32995/devtools/browser/6b762a63-eae8-4d04-b3e4-3f3f75b53a50
+1647969846846	Marionette	INFO	Listening on port 33823
+1647969846960	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1647969919429	Marionette	INFO	Stopped listening on port 35177
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 718: Error: Phase "Sqlite.jsm: wait until all connections are closed" is finished, it is too late to register completion condition "protections.sqlite#0: waiting for shutdown"
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1647969924210	Marionette	INFO	Stopped listening on port 33823
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1647969930282	geckodriver	INFO	Listening on 127.0.0.1:36215
+1647969930849	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "58623" "-no-remote" "-profile" "/tmp/rust_mozprofileiM76qD"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647969968342	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileiM76qD/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:58623/devtools/browser/02d854ea-e9b2-4a24-be32-0de2c467c0f4
+1647969970618	Marionette	INFO	Listening on port 46443
+1647969970829	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: (new TypeError("parent is null", "resource://devtools/client/inspector/shared/style-change-tracker.js", 67))
+TypeError: parent is null: canMutationImpactCurrentStyles@resource://devtools/client/inspector/shared/style-change-tracker.js:67:24
+onMutations@resource://devtools/client/inspector/shared/style-change-tracker.js:84:41
+_emit@resource://devtools/shared/event-emitter.js:244:34
+emit@resource://devtools/shared/event-emitter.js:190:18
+emit@resource://devtools/shared/event-emitter.js:342:18
+getMutations@resource://devtools/client/fronts/walker.js:312:10
+
+console.error: (new TypeError("container.node.targetFront is null", "resource://devtools/client/inspector/markup/markup.js", 2320))
+1647970170413	geckodriver	INFO	Listening on 127.0.0.1:37665
+1647970170916	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "34661" "-no-remote" "-profile" "/tmp/rust_mozprofiledG2Mvb"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647970171657	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofiledG2Mvb/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:34661/devtools/browser/dfd4293d-10de-4dcb-99bb-7d9b4e47d266
+1647970172988	Marionette	INFO	Listening on port 40429
+1647970173034	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647970181036	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+1647970198218	Marionette	INFO	Stopped listening on port 40429
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+console.error: (new TypeError("parent is null", "resource://devtools/client/inspector/shared/style-change-tracker.js", 67))
+TypeError: parent is null: canMutationImpactCurrentStyles@resource://devtools/client/inspector/shared/style-change-tracker.js:67:24
+onMutations@resource://devtools/client/inspector/shared/style-change-tracker.js:84:41
+_emit@resource://devtools/shared/event-emitter.js:244:34
+emit@resource://devtools/shared/event-emitter.js:190:18
+emit@resource://devtools/shared/event-emitter.js:342:18
+getMutations@resource://devtools/client/fronts/walker.js:312:10
+
+console.error: (new TypeError("container.node.targetFront is null", "resource://devtools/client/inspector/markup/markup.js", 2320))
+1647970815923	geckodriver	INFO	Listening on 127.0.0.1:51597
+1647970816426	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "40283" "-no-remote" "-profile" "/tmp/rust_mozprofilekVyPDU"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647970817160	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilekVyPDU/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:40283/devtools/browser/8a9517ba-8978-4e5f-8609-bf55a1be9e63
+1647970818384	Marionette	INFO	Listening on port 41803
+1647970818454	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647970839135	Marionette	INFO	Stopped listening on port 41803
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1647970848695	geckodriver	INFO	Listening on 127.0.0.1:41695
+1647970849198	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "37681" "-no-remote" "-profile" "/tmp/rust_mozprofileObEKUF"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647970850002	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileObEKUF/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:37681/devtools/browser/105a0bf1-bf37-4700-be75-f301a4840fa6
+1647970851267	Marionette	INFO	Listening on port 42365
+1647970851342	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647970858446	Marionette	INFO	Stopped listening on port 42365
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1647970881042	Marionette	INFO	Stopped listening on port 46443
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1647970901645	geckodriver	INFO	Listening on 127.0.0.1:38099
+1647970902148	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "35363" "-no-remote" "-profile" "/tmp/rust_mozprofileEqUG8W"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647970902871	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileEqUG8W/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:35363/devtools/browser/60f28720-2579-43e7-9e5b-2d41e53056b0
+1647970904133	Marionette	INFO	Listening on port 41613
+1647970904172	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647970917222	Marionette	INFO	Stopped listening on port 41613
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+1647970955273	geckodriver	INFO	Listening on 127.0.0.1:39339
+1647970955777	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "39929" "-no-remote" "-profile" "/tmp/rust_mozprofiletci7td"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647970956521	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofiletci7td/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:39929/devtools/browser/6c4c88f0-af20-4c51-af34-8e4d0968e8c5
+1647970957747	Marionette	INFO	Listening on port 40341
+1647970957796	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647971049130	geckodriver	INFO	Listening on 127.0.0.1:41779
+1647971049633	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "41575" "-no-remote" "-profile" "/tmp/rust_mozprofileM0rpOf"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647971050360	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileM0rpOf/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:41575/devtools/browser/f431a7d4-705a-48ec-9878-543c91649ece
+1647971051564	Marionette	INFO	Listening on port 41413
+1647971051661	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647971063946	Marionette	INFO	Stopped listening on port 41413
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1647971120541	geckodriver	INFO	Listening on 127.0.0.1:34487
+1647971121044	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "60439" "-no-remote" "-profile" "/tmp/rust_mozprofileAXlYNP"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647971121809	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileAXlYNP/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:60439/devtools/browser/e910e332-08b6-4a42-ac68-af839dd0c079
+1647971122960	Marionette	INFO	Listening on port 44365
+1647971123062	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647971165541	geckodriver	INFO	Listening on 127.0.0.1:57853
+1647971166045	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "38667" "-no-remote" "-profile" "/tmp/rust_mozprofileCjTXw5"
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1647971166782	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileCjTXw5/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:38667/devtools/browser/e1f6f3c0-bf3b-43a1-8a6a-63f7fe3fa0d1
+1647971167929	Marionette	INFO	Listening on port 41961
+1647971167995	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1647971174693	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://remote/content/marionette/sync.js:235:19
+TimedPromise@chrome://remote/content/marionette/sync.js:220:10
+interaction.flushEventLoop@chrome://remote/content/marionette/interaction.js:431:10
+webdriverClickElement@chrome://remote/content/marionette/interaction.js:179:31
+1647971186612	Marionette	INFO	Stopped listening on port 41961
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
