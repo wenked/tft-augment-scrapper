@@ -1,4 +1,3 @@
-from turtle import up
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
@@ -6,10 +5,13 @@ from selenium.common import exceptions
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+import pandas as pd
 import time
 import sqlite3
 import logging
 import inquirer
+
+
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
@@ -20,6 +22,8 @@ cursor = db.cursor()
 
 cursor.execute('CREATE TABLE IF NOT EXISTS augments (id INTEGER PRIMARY KEY, name TEXT,tier TEXT, pickrate TEXT, placement TEXT, top4 TEXT, winrate TEXT, stage14 TEXT, stage33 TEXT, stage46 TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 db.commit()
+
+
 
 def insert_data(data,update=False,id=None):
       if update:
@@ -98,9 +102,6 @@ def get_data(tier,driver):
       data = (nome,tier, pickrate, place, top4, win, stage14, stage33, stage46) 
       data_exists = db.execute("SELECT * FROM augments WHERE name = :nome AND tier = :tier",(nome,tier)).fetchall()
       
-      
-    
-  
       if(len(data_exists) > 0):
             id = data_exists[0][0]
             print(id)
@@ -112,16 +113,15 @@ def get_data(tier,driver):
       counter += 1
   else:
     logging.info(f'Fim do scraping de dados. Total de {counter} registros inseridos na database.')
-    
-    
-def main():
+
+def scrap_data():
       tiers =['prismatic','gold','silver']
       questions = [
-                inquirer.List('driver',
-                    message="Torrents encontrados:",
-                    choices=['Firefox','Edge'],
-                ),
-                ]
+                  inquirer.List('driver',
+                      message="Selecione o driver que deseja utilizar",
+                      choices=['Firefox','Edge'],
+                  ),
+                  ]
       answers = inquirer.prompt(questions)
       driver = select_driver(answers['driver'])
       driver.get('https://tactics.tools/augments')
@@ -130,9 +130,40 @@ def main():
       for tier in tiers:
           adding_filters(driver,tier=tier)
           get_data(tier=tier,driver=driver)
-      driver.close()      
+      driver.close()  
+        
       time.sleep(5)
       print('FIM')
+    
+def main():
+      exists = db.execute("SELECT EXISTS (SELECT name FROM sqlite_schema WHERE type='table' AND  name='augments');").fetchall()[0][0]
+      if exists == 1:
+        questions = [
+                  inquirer.List('awnser',
+                      message="Database já existe, deseja atualizar ela ?",
+                      choices=['Sim','Não'],
+                  ),
+                  ]
+        answers = inquirer.prompt(questions)
+        if answers['awnser'] == 'Sim':
+            scrap_data()
+            return
+        else:
+          questions = [
+                  inquirer.List('awnser',
+                      message="Deseja vizualizar os dados ?",
+                      choices=['Sim','Não'],
+                  ),
+                  ]
+          answers = inquirer.prompt(questions)
+          if(answers['awnser'] == 'Sim'):
+                data = pd.read_sql("SELECT * FROM augments", db)
+                print(data)
+          else:
+              return
+      else:      
+        scrap_data()
+        return
      
      
          

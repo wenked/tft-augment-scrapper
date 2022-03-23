@@ -1,0 +1,4 @@
+selenium
+inquirer
+db-sqlite3
+pandas
