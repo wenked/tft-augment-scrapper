@@ -2,9 +2,6 @@ from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.common import exceptions
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 import pandas as pd
 import time
 import sqlite3
@@ -12,16 +9,15 @@ import logging
 import inquirer
 
 
-
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
-
-
 db = sqlite3.connect('augments.db')
 db.set_trace_callback(print)
 cursor = db.cursor()
 
 cursor.execute('CREATE TABLE IF NOT EXISTS augments (id INTEGER PRIMARY KEY, name TEXT,tier TEXT, pickrate TEXT, placement TEXT, top4 TEXT, winrate TEXT, stage14 TEXT, stage33 TEXT, stage46 TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 db.commit()
+
+
 
 
 
@@ -136,6 +132,7 @@ def scrap_data():
       print('FIM')
     
 def main():
+      
       exists = db.execute("SELECT EXISTS (SELECT name FROM sqlite_schema WHERE type='table' AND  name='augments');").fetchall()[0][0]
       if exists == 1:
         questions = [
@@ -158,6 +155,7 @@ def main():
           answers = inquirer.prompt(questions)
           if(answers['awnser'] == 'Sim'):
                 data = pd.read_sql("SELECT * FROM augments", db)
+                data.to_excel('augments.xlsx')
                 print(data)
           else:
               return
