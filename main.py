@@ -136,7 +136,7 @@ def scrap_data():
       print('FIM')
     
 def main():
-      exists = db.execute("SELECT EXISTS (SELECT name FROM sqlite_schema WHERE type='table' AND  name='augments');").fetchall()[0][0]
+      exists = db.execute("SELECT EXISTS (SELECT name FROM sqlite_master WHERE type='table' AND  name='augments');").fetchall()[0][0]
       if exists == 1:
         questions = [
                   inquirer.List('awnser',
