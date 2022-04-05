@@ -7,7 +7,7 @@ import time
 import sqlite3
 import logging
 import inquirer
-
+import sys
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 db = sqlite3.connect('augments.db')
@@ -110,16 +110,20 @@ def get_data(tier,driver):
   else:
     logging.info(f'Fim do scraping de dados. Total de {counter} registros inseridos na database.')
 
-def scrap_data():
+def scrap_data(api=False):
       tiers =['prismatic','gold','silver']
-      questions = [
+      if(api):
+            driver =select_driver('Edge')
+      else:
+       
+        questions = [
                   inquirer.List('driver',
                       message="Selecione o driver que deseja utilizar",
                       choices=['Firefox','Edge'],
                   ),
                   ]
-      answers = inquirer.prompt(questions)
-      driver = select_driver(answers['driver'])
+        answers = inquirer.prompt(questions)
+        driver = select_driver(answers['driver'])
       driver.get('https://tactics.tools/augments')
       driver.maximize_window()
       driver.find_element_by_xpath('/html/body/div[2]/div/div/div[3]/div[1]/button[2]').click()
@@ -132,7 +136,11 @@ def scrap_data():
       print('FIM')
     
 def main():
-      
+      if(len(sys.argv) > 1):
+            if(sys.argv[1] == 'scrap'):
+                  scrap_data(api=True)
+                  return
+                  
       exists = db.execute("SELECT EXISTS (SELECT name FROM sqlite_schema WHERE type='table' AND  name='augments');").fetchall()[0][0]
       if exists == 1:
         questions = [
