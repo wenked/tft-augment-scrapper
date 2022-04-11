@@ -25,6 +25,7 @@ origins = [
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:3000",
+    "https://hoppscotch.io"
 ]
 
 app.add_middleware(

@@ -1,3 +1,4 @@
+from pickle import TRUE
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
@@ -8,6 +9,16 @@ import sqlite3
 import logging
 import inquirer
 import sys
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="w3nked17",
+  database='augments'
+)
+
+mysql_cursor = mydb.cursor(buffered=TRUE)
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 db = sqlite3.connect('augments.db')
@@ -18,7 +29,12 @@ cursor.execute('CREATE TABLE IF NOT EXISTS augments (id INTEGER PRIMARY KEY, nam
 db.commit()
 
 
-
+def insert_mysql(data,update=False,id=None):
+      if update:
+        mysql_cursor.execute(f'UPDATE augments SET name=%s,tier=%s,pickrate=%s,placement=%s,top4=%s,winrate=%s,stage14=%s,stage33=%s,stage46=%s,updatedAt=CURRENT_TIMESTAMP WHERE id={id}',data)
+      else:    
+        mysql_cursor.execute('INSERT INTO augments (name, tier, pickrate, placement, top4, winrate, stage14, stage33, stage46) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)', data)
+      mydb.commit()
 
 
 def insert_data(data,update=False,id=None):
@@ -97,11 +113,21 @@ def get_data(tier,driver):
       stage46 = driver.find_element_by_xpath(f'//*[@id="__next"]/div/div/div/div[2]/div/div[4]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div[2]/div[{counter_linha}]/div[7]').text 
       data = (nome,tier, pickrate, place, top4, win, stage14, stage33, stage46) 
       data_exists = db.execute("SELECT * FROM augments WHERE name = :nome AND tier = :tier",(nome,tier)).fetchall()
+      mysql_cursor.execute(f"SELECT * FROM augments WHERE name = %s AND tier = %s",(nome,tier)).fetchall()
+      datasql_exists = mysql_cursor.fetchall()
+      print(datasql_exists)
+      if(len(datasql_exists) > 0):
+          id = data_exists[0][0]
+          print(id)
+          insert_mysql(data,update=True,id=id)
+      else:
+        insert_mysql(data)
       
       if(len(data_exists) > 0):
             id = data_exists[0][0]
             print(id)
             insert_data(data,update=True,id=id)
+            insert_mysql(data,update=True,id=id)
       else:      
         insert_data(data)
       counter_linha += 1  
