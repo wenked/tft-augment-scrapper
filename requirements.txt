@@ -2,3 +2,6 @@ selenium
 inquirer
 db-sqlite3
 pandas
+python-dotenv
+mysql-connector-python
+webdriver_manager
