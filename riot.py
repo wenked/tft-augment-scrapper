@@ -3,6 +3,8 @@ import requests
 import mysql.connector
 import os
 from dotenv import load_dotenv
+import inquirer
+import time
 load_dotenv()
 
 
@@ -13,7 +15,7 @@ mydb = mysql.connector.connect(
   password=os.getenv('DB_PASSWORD'),
   database=os.getenv('DB_NAME')
 )
-
+API_KEY= os.getenv('API_KEY')
 mysql_cursor = mydb.cursor(buffered=True)
 mysql_cursor.execute('CREATE TABLE IF NOT EXISTS augments_match_data (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT,game_version TEXT,placement INT,augment TEXT,round TEXT ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 mysql_cursor.execute('CREATE TABLE IF NOT EXISTS matches (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
@@ -26,33 +28,71 @@ matchesIds = mysql_cursor.fetchall()
 
 matchDatas = []
 
-if(len(matchesIds) == 0):
-    challengers = requests.get('https://br1.api.riotgames.com/tft/league/v1/challenger?api_key=RGAPI-8aaf5c36-0f2d-4eb5-b7de-6a53d7e797e4').json()
-    print(challengers['entries'])
-    summonerMatches = []
-
-
-
-    for challenger in challengers['entries']:
-        summoner = requests.get(' https://br1.api.riotgames.com/tft/summoner/v1/summoners/'+challenger['summonerId']+'?api_key=RGAPI-8aaf5c36-0f2d-4eb5-b7de-6a53d7e797e4').json()
-        print(summoner)
-        matches = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/'+summoner['puuid']+'/ids?count=20&api_key=RGAPI-8aaf5c36-0f2d-4eb5-b7de-6a53d7e797e4').json()
+def grab_player_data(requests_count):
+    ranks = ['challenger','grandmaster','master']
+    
+    for rank in ranks:
+        print(requests_count)
+        if(requests_count == 99):
+            print('Request count = 99, sleep')
+            time.sleep(62)
+            requests_count = 0
         
-        for match in matches:
-            print(match,'oi')
-            mysql_cursor.execute(f'INSERT INTO matches (matchid,elo) VALUES ("{match}","challenger")')
-            summonerMatches.append(match)
-            print(mysql_cursor.statement)
-            mydb.commit()
-else:
-        print('entrei aqui')
-        for match in matchesIds:
-            print(match[1])
-            matchData = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/'+match[1]+'?api_key=RGAPI-8aaf5c36-0f2d-4eb5-b7de-6a53d7e797e4').json()
+        players = requests.get('https://na1.api.riotgames.com/tft/league/v1/'+rank+'?api_key='+API_KEY).json()
+        print(players['entries'])
+        requests_count += 1
+        for player in players['entries']:
+            if(requests_count == 99):
+                print('Request count = 99, sleep')
+                time.sleep(62)
+                requests_count = 0
+            summoner = requests.get(' https://na1.api.riotgames.com/tft/summoner/v1/summoners/'+player['summonerId']+'?api_key='+API_KEY).json()
+            requests_count += 1
+            print(summoner)
+            if(requests_count == 99):
+                print('Request count = 99, sleep')
+                time.sleep(62)
+                requests_count = 0
+            matches = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/'+summoner['puuid']+'/ids?count=20&api_key='+API_KEY).json()
+            requests_count += 1
             
-            
-          
-            for participant in matchData['info']['participants']:
+            for match in matches:
+                mysql_cursor.execute('SELECT * FROM augmentsdb.matches where matchid = %s;', (match,))
+                match_id_check = mysql_cursor.fetchall()
+                if(len(match_id_check) > 0):
+                    print('Id de partida já existente >> ', match)
+                    continue
+                
+                mysql_cursor.execute(f'INSERT INTO matches (matchid,elo) VALUES ("{match}","{rank}")')
+                print(mysql_cursor.statement)
+                mydb.commit()
+
+    return True
+
+
+
+def grab_match_data(matchesIds,requests_count):
+    print('Buscando dados de partidas')
+    for match in matchesIds:
+        matchId = match[1]
+        mysql_cursor.execute('SELECT * FROM augmentsdb.augments_match_data where matchid = %s;', (matchId,))
+        match_id_check = mysql_cursor.fetchall()
+        print(match[1])
+        
+        
+        if(len(match_id_check) > 0):
+            print('Id de partida já existente >> ', match[1])
+            continue
+        
+        if(requests_count == 99):
+            print('Request count = 99, sleep')
+            time.sleep(62)
+            requests_count = 0
+        matchData = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/'+match[1]+'?api_key='+API_KEY).json()
+        time.sleep(1)
+        requests_count += 1
+             
+        for participant in matchData['info']['participants']:
                 print(participant)
                 for index,augment in enumerate(participant['augments']):
                     gameversion = matchData['info']['game_version']
@@ -62,13 +102,42 @@ else:
 
                     if(index == 1):
                         round = 'stage33'
-                    
+                        
                     if(index == 2):
                         round = 'stage46'
-                            
-                    data = (match, 'challenger', gameversion, placement, augment)
+                                
+            
                     mysql_cursor.execute(f'INSERT INTO augments_match_data (matchid,elo,game_version,placement,augment,round) VALUES ("{match[1]}","challenger","{gameversion}","{placement}","{augment}","{round}")')
                     print(mysql_cursor.statement)
                     mydb.commit()
+
                     
                     
+def main():
+    print('Começando')
+    global request_count
+    requests_count = 0
+    
+    try:
+        mysql_cursor.execute('SELECT * FROM augmentsdb.matches;')
+        matchesIds = mysql_cursor.fetchall()
+        
+        questions = [
+                  inquirer.List('awnser',
+                      message="Deseja realizar update da playerbase?",
+                      choices=['Sim','Não'],
+                  ),
+                  ]
+        answers = inquirer.prompt(questions)
+        if answers['awnser'] == 'Sim':
+            grab_player_data(requests_count)
+        
+        
+     
+        if(len(matchesIds) > 0):
+            grab_match_data(matchesIds,requests_count)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+
+main()
