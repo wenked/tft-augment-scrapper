@@ -3,8 +3,10 @@ import requests
 import mysql.connector
 import os
 from dotenv import load_dotenv
+import pandas as pd
 import inquirer
 import time
+import json
 load_dotenv()
 
 
@@ -17,7 +19,7 @@ mydb = mysql.connector.connect(
 )
 API_KEY= os.getenv('API_KEY')
 mysql_cursor = mydb.cursor(buffered=True)
-mysql_cursor.execute('CREATE TABLE IF NOT EXISTS augments_match_data (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT,game_version TEXT,placement INT,augment TEXT,round TEXT ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
+mysql_cursor.execute('CREATE TABLE IF NOT EXISTS augments_match_data (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT,game_version TEXT,placement INT,augment TEXT,api_name TEXT,tier TEXT,round TEXT ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 mysql_cursor.execute('CREATE TABLE IF NOT EXISTS matches (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 print(mysql_cursor.statement)
 mydb.commit()
@@ -72,6 +74,8 @@ def grab_player_data(requests_count):
 
 
 def grab_match_data(matchesIds,requests_count):
+    json_file = open('augments_stats_formated.json')
+    json_data = json.load(json_file)
     print('Buscando dados de partidas')
     for match in matchesIds:
         matchId = match[1]
@@ -106,15 +110,34 @@ def grab_match_data(matchesIds,requests_count):
                     if(index == 2):
                         round = 'stage46'
                                 
-            
-                    mysql_cursor.execute(f'INSERT INTO augments_match_data (matchid,elo,game_version,placement,augment,round) VALUES ("{match[1]}","challenger","{gameversion}","{placement}","{augment}","{round}")')
-                    print(mysql_cursor.statement)
-                    mydb.commit()
-
                     
+                    
+                    augment_object = list(filter(lambda x: x['api'] == augment, json_data))
+                    if(len(augment_object) > 0): 
+                        formated_object = augment_object[0]
+                        formated_name = formated_object['name']
+                        formated_api_name = formated_object['api']
+                        formated_tier = formated_object['tier']                  
+                        mysql_cursor.execute(f'INSERT INTO augments_match_data (matchid,elo,game_version,placement,augment,api_name,tier,round) VALUES ("{match[1]}","challenger","{gameversion}","{placement}","{formated_name}","{formated_api_name}","{formated_tier}","{round}")')
+                        print(mysql_cursor.statement)
+                        mydb.commit()
+                    else:
+                        mysql_cursor.execute(f'INSERT INTO augments_match_data (matchid,elo,game_version,placement,augment,api_name,tier,round) VALUES ("{match[1]}","challenger","{gameversion}","{placement}","-","{augment}","-","{round}")')
+                        print(mysql_cursor.statement)
+                        mydb.commit()
+                            
+        json_file.close()
+ 
+ 
+def generate_augments_stats():
+    mysql_cursor.execute('SELECT distinct augment FROM augmentsdb.augments_match_data;')
+    print(mysql_cursor.statement)
+    augments_names = mysql_cursor.fetchall() 
+    
+
+                   
                     
 def main():
-    print('Começando')
     global request_count
     requests_count = 0
     
