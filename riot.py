@@ -44,24 +44,40 @@ def grab_player_data(requests_count):
             print('Request count = 99, sleep')
             time.sleep(62)
             requests_count = 0
-        
-        players = requests.get('https://na1.api.riotgames.com/tft/league/v1/'+rank+'?api_key='+API_KEY).json()
-        print(players['entries'])
+        try:
+            players = requests.get('https://na1.api.riotgames.com/tft/league/v1/'+rank+'?api_key='+API_KEY).json()
+            print(players['entries'])
+        except Exception as e:
+            print(f'Error: {e}, Error ao processar playerbase,aguardando por 60 segundos...')
+            time.sleep(60)
+            continue
         requests_count += 1
         for player in players['entries']:
             if(requests_count == 99):
                 print('Request count = 99, sleep')
                 time.sleep(62)
                 requests_count = 0
-            summoner = requests.get(' https://na1.api.riotgames.com/tft/summoner/v1/summoners/'+player['summonerId']+'?api_key='+API_KEY).json()
-            requests_count += 1
-            print(summoner)
+                
+            try:    
+                summoner = requests.get(' https://na1.api.riotgames.com/tft/summoner/v1/summoners/'+player['summonerId']+'?api_key='+API_KEY).json()
+                requests_count += 1
+                print(summoner)
+            except Exception as e:
+                print(f'Error: {e}, Error ao buscar o summoner,aguardando por 60 segundos...')
+                time.sleep(60)
+                continue 
+               
             if(requests_count == 99):
                 print('Request count = 99, sleep')
                 time.sleep(62)
                 requests_count = 0
-            matches = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/'+summoner['puuid']+'/ids?count=20&api_key='+API_KEY).json()
-            requests_count += 1
+            try:    
+                matches = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/'+summoner['puuid']+'/ids?count=20&api_key='+API_KEY).json()
+                requests_count += 1
+            except Exception as e:
+                print(f'Error: {e}, Error ao buscar partidas,aguardando por 60 segundos...')
+                time.sleep(60)
+                continue
             
             for match in matches:
                 mysql_cursor.execute('SELECT * FROM augmentsdb.matches where matchid = %s;', (match,))
