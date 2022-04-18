@@ -5,3 +5,4 @@ pandas
 python-dotenv
 mysql-connector-python
 webdriver_manager
+pika

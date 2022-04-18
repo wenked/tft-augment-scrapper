@@ -22,6 +22,7 @@ mysql_cursor = mydb.cursor(buffered=True)
 mysql_cursor.execute('CREATE TABLE IF NOT EXISTS augments_match_data (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT,game_version TEXT,placement INT,augment TEXT,api_name TEXT,tier TEXT,round TEXT ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 mysql_cursor.execute('CREATE TABLE IF NOT EXISTS matches (id INTEGER AUTO_INCREMENT PRIMARY KEY, matchid TEXT,elo TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 mysql_cursor.execute('CREATE TABLE IF NOT EXISTS augments_stats (id INTEGER AUTO_INCREMENT PRIMARY KEY, name TEXT,api_name TEXT,tier TEXT,avg_placement FLOAT,avg_placement14 FLOAT,avg_placement33 FLOAT,avg_placement46 FLOAT ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
+mysql_cursor.execute('CREATE TABLE IF NOT EXISTS historic_stats (id INTEGER AUTO_INCREMENT PRIMARY KEY, user TEXT,status TEXT,progresso FLOAT DEFAULT 0 ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)')
 print(mysql_cursor.statement)
 mydb.commit()
 
@@ -35,10 +36,16 @@ matchDatas = []
     
     
 
-def grab_player_data(requests_count):
+def grab_player_data(requests_count,historic_stats_id):
     ranks = ['challenger','grandmaster','master']
     
-    for rank in ranks:
+    mysql_cursor.execute(f"UPDATE historic_stats SET status = 'Buscando players',progresso= 0.33 WHERE id = %s", (historic_stats_id,))
+    print(mysql_cursor.statement)
+    mydb.commit()
+    for index,rank in enumerate(ranks):
+        print(f'Buscando dados de {rank}...')
+      
+        
         print(requests_count)
         if(requests_count == 99):
             print('Request count = 99, sleep')
@@ -48,11 +55,12 @@ def grab_player_data(requests_count):
             players = requests.get('https://na1.api.riotgames.com/tft/league/v1/'+rank+'?api_key='+API_KEY).json()
             print(players['entries'])
         except Exception as e:
-            print(f'Error: {e}, Error ao processar playerbase,aguardando por 60 segundos...')
-            time.sleep(60)
+            print(f'Error: {e}, Error ao processar playerbase.')
+            
             continue
         requests_count += 1
-        for player in players['entries']:
+        for index,player in enumerate(players['entries']):
+            print(f'Buscando dados de {index}/{len(players["entries"])}...')
             if(requests_count == 99):
                 print('Request count = 99, sleep')
                 time.sleep(62)
@@ -63,8 +71,8 @@ def grab_player_data(requests_count):
                 requests_count += 1
                 print(summoner)
             except Exception as e:
-                print(f'Error: {e}, Error ao buscar o summoner,aguardando por 60 segundos...')
-                time.sleep(60)
+                print(f'Error: {e}, Error ao buscar o summoner.')
+                
                 continue 
                
             if(requests_count == 99):
@@ -75,8 +83,8 @@ def grab_player_data(requests_count):
                 matches = requests.get('https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/'+summoner['puuid']+'/ids?count=20&api_key='+API_KEY).json()
                 requests_count += 1
             except Exception as e:
-                print(f'Error: {e}, Error ao buscar partidas,aguardando por 60 segundos...')
-                time.sleep(60)
+                print(f'Error: {e}, Error ao buscar partidas.')
+               
                 continue
             
             for match in matches:
@@ -89,17 +97,26 @@ def grab_player_data(requests_count):
                 mysql_cursor.execute(f'INSERT INTO matches (matchid,elo) VALUES ("{match}","{rank}")')
                 print(mysql_cursor.statement)
                 mydb.commit()
+            mysql_cursor.execute(f"UPDATE historic_stats SET status = 'Buscando {rank} players',progresso= 0.33 + (0.33 * {index}/{len(ranks)}) WHERE id = %s", (historic_stats_id,))
+            print(mysql_cursor.statement)
+            mydb.commit()        
 
     return True
 
 
 
-def grab_match_data(matchesIds,requests_count):
+def grab_match_data(matchesIds,requests_count,historic_stats_id):
     json_file = open('augments_stats_formated.json')
     json_data = json.load(json_file)
     print('Buscando dados de partidas')
+    mysql_cursor.execute(f"UPDATE historic_stats SET status = 'Buscando dados das  partidas',progresso= 0.66 WHERE id = %s", (historic_stats_id,))
+    
+    print(mysql_cursor.statement)
+    mydb.commit()
     for index,match in enumerate(matchesIds):
         print(f"{index}/{len(matchesIds)} partidas...")
+        
+        
         matchId = match[1]
         mysql_cursor.execute('SELECT * FROM augmentsdb.augments_match_data where matchid = %s;', (matchId,))
         match_id_check = mysql_cursor.fetchall()
@@ -108,6 +125,9 @@ def grab_match_data(matchesIds,requests_count):
         
         if(len(match_id_check) > 0):
             print('Id de partida já existente >> ', match[1])
+            mysql_cursor.execute(f"UPDATE historic_stats SET status = 'Buscando players',progresso= 0.66 + (0.14 * {index}/{len(matchesIds)}) WHERE id = %s", (historic_stats_id,))
+            print(mysql_cursor.statement)
+            mydb.commit()
             continue
         
         if(requests_count == 99):
@@ -155,13 +175,21 @@ def grab_match_data(matchesIds,requests_count):
             time.sleep(2)
             continue        
         json_file.close()
+        
+        mysql_cursor.execute(f"UPDATE historic_stats SET status = 'Buscando players',progresso= 0.66 + (0.14 * {index}/{len(matchesIds)}) WHERE id = %s", (historic_stats_id,))
+        print(mysql_cursor.statement)
+        mydb.commit()
  
  
-def generate_augments_stats():
+def generate_augments_stats(historic_stats_id):
     mysql_cursor.execute('SELECT distinct api_name FROM augmentsdb.augments_match_data;')
     print(mysql_cursor.statement)
-    augments_names = mysql_cursor.fetchall() 
-    for augment in augments_names:
+    augments_names = mysql_cursor.fetchall()
+    mysql_cursor.execute(f"UPDATE historic_stats SET status = 'Gerando augments stats',progresso= 0.8 WHERE id = %s", (historic_stats_id,))
+    print(mysql_cursor.statement)
+    mydb.commit() 
+    for index,augment in enumerate(augments_names):
+        
         agument_name = augment[0]
         mysql_cursor.execute(f"""SELECT 
             (SELECT DISTINCT
@@ -234,15 +262,21 @@ def generate_augments_stats():
             mysql_cursor.execute(f'INSERT INTO augments_stats (name,api_name,tier,avg_placement,avg_placement14,avg_placement33,avg_placement46) VALUES ("{stats[0]}","{stats[1]}","{stats[2]}","{stats[3]}","{stats14}","{stats33}","{stats46}")')
             print(mysql_cursor.statement)
             mydb.commit()
-
+        mysql_cursor.execute(f"UPDATE historic_stats SET progresso= 0.8 + (0.2 * {index} / {len(augments_names)}) WHERE id = %s", (historic_stats_id,))
+        print(mysql_cursor.statement)
+        mydb.commit()
                    
                     
 def main():
-    
+    mysql_cursor.execute("INSERT INTO historic_stats (user,status) VALUES ('teste2','Inicializando')")
+    print(mysql_cursor.statement)
+    mydb.commit()
+    historic_stats_id = mysql_cursor.lastrowid
+    print("1 record inserted, ID:", mysql_cursor.lastrowid)
+   
     global request_count
     requests_count = 0
     
-   
     mysql_cursor.execute('SELECT * FROM augmentsdb.matches;')
     matchesIds = mysql_cursor.fetchall()
     questions = [
@@ -264,12 +298,12 @@ def main():
                   ]
     answers = inquirer.prompt(questions)
     if answers['awnser'] == 'Sim':
-        grab_player_data(requests_count)
+        grab_player_data(requests_count,historic_stats_id)
         
         
      
     if(len(matchesIds) > 0):
-        grab_match_data(matchesIds,requests_count)
+        grab_match_data(matchesIds,requests_count,historic_stats_id)
         
    
 
